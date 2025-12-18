@@ -36,7 +36,7 @@ namespace cameronDuckettClientSchedule
             this.loginButton = new System.Windows.Forms.Button();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
             this.usernameTextBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.pwLabel = new System.Windows.Forms.Label();
             this.usernameLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.loginGroupBox.SuspendLayout();
@@ -49,7 +49,7 @@ namespace cameronDuckettClientSchedule
             this.loginGroupBox.Controls.Add(this.loginButton);
             this.loginGroupBox.Controls.Add(this.passwordTextBox);
             this.loginGroupBox.Controls.Add(this.usernameTextBox);
-            this.loginGroupBox.Controls.Add(this.label2);
+            this.loginGroupBox.Controls.Add(this.pwLabel);
             this.loginGroupBox.Controls.Add(this.usernameLabel);
             this.loginGroupBox.Location = new System.Drawing.Point(184, 93);
             this.loginGroupBox.Name = "loginGroupBox";
@@ -79,9 +79,9 @@ namespace cameronDuckettClientSchedule
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(368, 252);
+            this.loginButton.Location = new System.Drawing.Point(310, 253);
             this.loginButton.Name = "loginButton";
-            this.loginButton.Size = new System.Drawing.Size(77, 42);
+            this.loginButton.Size = new System.Drawing.Size(202, 42);
             this.loginButton.TabIndex = 4;
             this.loginButton.Text = "LOGIN";
             this.loginButton.UseVisualStyleBackColor = true;
@@ -101,14 +101,14 @@ namespace cameronDuckettClientSchedule
             this.usernameTextBox.Size = new System.Drawing.Size(240, 26);
             this.usernameTextBox.TabIndex = 2;
             // 
-            // label2
+            // pwLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(172, 193);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 20);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Password:";
+            this.pwLabel.AutoSize = true;
+            this.pwLabel.Location = new System.Drawing.Point(172, 193);
+            this.pwLabel.Name = "pwLabel";
+            this.pwLabel.Size = new System.Drawing.Size(82, 20);
+            this.pwLabel.TabIndex = 1;
+            this.pwLabel.Text = "Password:";
             // 
             // usernameLabel
             // 
@@ -118,6 +118,7 @@ namespace cameronDuckettClientSchedule
             this.usernameLabel.Size = new System.Drawing.Size(87, 20);
             this.usernameLabel.TabIndex = 0;
             this.usernameLabel.Text = "Username:";
+            this.usernameLabel.Click += new System.EventHandler(this.usernameLabel_Click);
             // 
             // label1
             // 
@@ -157,7 +158,7 @@ namespace cameronDuckettClientSchedule
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox passwordTextBox;
         private System.Windows.Forms.TextBox usernameTextBox;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label pwLabel;
         private System.Windows.Forms.Label usernameLabel;
         private System.Windows.Forms.Button loginButton;
         private System.Windows.Forms.Label currLocLabel;

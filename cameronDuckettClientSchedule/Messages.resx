@@ -118,18 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1" xml:space="preserve">
-    <value>KIRJAUDU SISÄÄN ALTA</value>
+    <value>PLEASE LOGIN BELOW</value>
+    <comment>Title above login form</comment>
   </data>
   <data name="label3" xml:space="preserve">
-    <value>Nykyinen sijainti: Suomi</value>
+    <value>Current Location: United States</value>
   </data>
   <data name="loginButton" xml:space="preserve">
-    <value>Kirjaudu sisään</value>
+    <value>LOGIN</value>
   </data>
   <data name="pwLabel" xml:space="preserve">
-    <value>Salasana</value>
+    <value>Password:</value>
   </data>
   <data name="usernameLabel" xml:space="preserve">
-    <value>Käyttäjätunnus:</value>
+    <value>Username:</value>
   </data>
 </root>

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Globalization;
+using System.Runtime.Remoting.Messaging;
 
 namespace cameronDuckettClientSchedule
 {
@@ -20,7 +21,12 @@ namespace cameronDuckettClientSchedule
         public loginForm()
         {
             InitializeComponent();
-            label3.Text = $"Current Loaction: {System.Globalization.RegionInfo.CurrentRegion.DisplayName}";
+            // set label to display user location
+            label3.Text = Messages.label3;
+            label1.Text = Messages.label1;
+            usernameLabel.Text = Messages.usernameLabel;
+            pwLabel.Text = Messages.pwLabel;
+            loginButton.Text = Messages.loginButton;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -56,5 +62,9 @@ namespace cameronDuckettClientSchedule
 
         }
 
+        private void usernameLabel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
