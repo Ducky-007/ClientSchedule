@@ -140,6 +140,7 @@ namespace cameronDuckettClientSchedule
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "loginForm";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.loginForm_Load);
             this.loginGroupBox.ResumeLayout(false);
             this.loginGroupBox.PerformLayout();
             this.ResumeLayout(false);

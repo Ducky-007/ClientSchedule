@@ -117,26 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label1" xml:space="preserve">
-    <value>PLEASE LOGIN BELOW</value>
-    <comment>Title above login form</comment>
-  </data>
-  <data name="label3" xml:space="preserve">
-    <value>Current Location: United States</value>
-  </data>
-  <data name="loginButton" xml:space="preserve">
-    <value>LOGIN</value>
-  </data>
-  <data name="loginFail" xml:space="preserve">
-    <value>Login failed. Please check your username and password.</value>
-  </data>
-  <data name="loginSuccess" xml:space="preserve">
-    <value>Welcome back</value>
-  </data>
-  <data name="pwLabel" xml:space="preserve">
-    <value>Password:</value>
-  </data>
-  <data name="usernameLabel" xml:space="preserve">
-    <value>Username:</value>
-  </data>
 </root>

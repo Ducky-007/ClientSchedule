@@ -88,6 +88,24 @@ namespace cameronDuckettClientSchedule {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login failed. Please check your username and password..
+        /// </summary>
+        internal static string loginFail {
+            get {
+                return ResourceManager.GetString("loginFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome back.
+        /// </summary>
+        internal static string loginSuccess {
+            get {
+                return ResourceManager.GetString("loginSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password:.
         /// </summary>
         internal static string pwLabel {

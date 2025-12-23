@@ -126,6 +126,12 @@
   <data name="loginButton" xml:space="preserve">
     <value>Kirjaudu sisään</value>
   </data>
+  <data name="loginFail" xml:space="preserve">
+    <value>Kirjautuminen epäonnistui. Tarkista käyttäjätunnuksesi ja salasanasi.</value>
+  </data>
+  <data name="loginSuccess" xml:space="preserve">
+    <value>Tervetuloa takaisin</value>
+  </data>
   <data name="pwLabel" xml:space="preserve">
     <value>Salasana</value>
   </data>

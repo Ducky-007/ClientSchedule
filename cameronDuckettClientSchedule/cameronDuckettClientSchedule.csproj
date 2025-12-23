@@ -96,6 +96,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\DBConnection.cs" />
+    <Compile Include="custRecordsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="custRecordsForm.Designer.cs">
+      <DependentUpon>custRecordsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="loginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.fi.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="custRecordsForm.resx">
+      <DependentUpon>custRecordsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="loginForm.resx">
       <DependentUpon>loginForm.cs</DependentUpon>
     </EmbeddedResource>

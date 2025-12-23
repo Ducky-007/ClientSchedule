@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Globalization;
 using System.Runtime.Remoting.Messaging;
+using System.Diagnostics.Eventing.Reader;
 
 namespace cameronDuckettClientSchedule
 {
@@ -38,16 +39,33 @@ namespace cameronDuckettClientSchedule
         {
             // open connection
             DBConnection.OpenConnection();
-            // test query
-            string testQuery = "SELECT * FROM user";
-            //execute query using the connection string
-            MySqlCommand cmd = new MySqlCommand(testQuery, DBConnection.conn);
-            //display results
-            //create reader
+
+            // get username and password from text boxes
+            string username = usernameTextBox.Text.Trim();
+            string password = passwordTextBox.Text;
+
+            // create query to check for matching username and password
+            string loginQuery = "SELECT * FROM user WHERE userName = @username AND password = @password";
+
+            MySqlCommand cmd = new MySqlCommand(loginQuery, DBConnection.conn);
+
+            //if username and password match, show messgage box saying login successful
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@password", password);
             MySqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            if (reader.HasRows)
             {
-                MessageBox.Show(reader["userName"] + " - " + reader["password"]);
+                MessageBox.Show($"{Messages.loginSuccess} {username}!");
+                //open main form
+                custRecordsForm custForm = new custRecordsForm();
+                custForm.Show();
+
+                //close login form
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show($"{Messages.loginFail}");
             }
             //close connection
             DBConnection.CloseConnection();
@@ -63,6 +81,11 @@ namespace cameronDuckettClientSchedule
         }
 
         private void usernameLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void loginForm_Load(object sender, EventArgs e)
         {
 
         }
