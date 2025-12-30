@@ -56,6 +56,8 @@ namespace cameronDuckettClientSchedule
             if (reader.HasRows)
             {
                 MessageBox.Show($"{Messages.loginSuccess} {username}!");
+                //set current user session username through userSession static class
+                userSession.UserName = username;
                 //open main form
                 custRecordsForm custForm = new custRecordsForm();
                 custForm.Show();

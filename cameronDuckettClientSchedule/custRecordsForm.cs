@@ -22,6 +22,8 @@ namespace cameronDuckettClientSchedule
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //ADDING CUSTOMER BUTTON FUNCTIONALITY
+
             //variables for trimmed text box values
             string name = nameTextBox.Text.Trim();
             string address = addressTextBox.Text.Trim();
@@ -29,6 +31,9 @@ namespace cameronDuckettClientSchedule
             string country = countryTextBox.Text.Trim();
             string zipCode = zipCodeTextBox.Text.Trim();
             string phoneNum = phoneNumTextBox.Text.Trim();
+            int countryId = 0;
+            int cityId = 0;
+            int addressId = 0;
 
             //check and ensure all text boxes are filled
             if (string.IsNullOrWhiteSpace(name) ||
@@ -41,6 +46,7 @@ namespace cameronDuckettClientSchedule
                 MessageBox.Show("Please fill in all fields.");
                 return;
             }
+            //allow only digits and dashes in phone number field
             if (!Regex.IsMatch(phoneNum, @"^[0-9-]+$"))
             {
                 MessageBox.Show("Phone number must contain only digits and dashes.");
@@ -48,10 +54,160 @@ namespace cameronDuckettClientSchedule
             // open connection
             DBConnection.OpenConnection();
 
+            //if country does not exist in database, insert it else get countryId from database
+            //select couuntryId from country table where country matches text box value entered in country text box
+            string countrySelectQuery = "SELECT countryId FROM country WHERE country = @country;";
 
+            //sql command to select/check countryId in country table
+            MySqlCommand countryCmd = new MySqlCommand(countrySelectQuery, DBConnection.conn);
+
+            //add country parameter to sql command with value from country text box
+            countryCmd.Parameters.AddWithValue("@country", country);
+
+            //execute sql command and read results
+            MySqlDataReader countryReader = countryCmd.ExecuteReader();
+            //if countryReader has rows, country exists in database
+            if (countryReader.HasRows)
+            {
+                //get countryId from database
+                countryReader.Read();
+                countryId = countryReader.GetInt32("countryId");
+                countryReader.Close();
+            }
+            //if country does not exist in database, insert it into country table
+            else
+            {
+                countryReader.Close();
+                //insert country into country table
+                string countryInsertQuery = "INSERT INTO country (country, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                    "VALUES (@country, NOW(), @createdBy, NOW(), @lastUpdateBy);";
+                MySqlCommand countryInsertCmd = new MySqlCommand(countryInsertQuery, DBConnection.conn);
+                countryInsertCmd.Parameters.AddWithValue("@country", country);
+                countryInsertCmd.Parameters.AddWithValue("@createdBy", userSession.UserName);
+                countryInsertCmd.Parameters.AddWithValue("@lastUpdateBy", userSession.UserName);
+                countryInsertCmd.ExecuteNonQuery();
+
+                //get the newly inserted countryId and save it as countryId
+                string getCountryIdQuery = "SELECT LAST_INSERT_ID() AS countryId;";
+                MySqlCommand getCountryIdCmd = new MySqlCommand(getCountryIdQuery, DBConnection.conn);
+                MySqlDataReader getCountryIdReader = getCountryIdCmd.ExecuteReader();
+                getCountryIdReader.Read();
+                countryId = getCountryIdReader.GetInt32("countryId");
+                getCountryIdReader.Close();
+            }
+
+            //if city doesn't exist in city table, insert it else get cityId from database
+            //check and see if city exists in city table with matching city name and countryId
+
+            //create sql command to select cityId from city table where city and countryId match text box value and retrieved countryId from Country text box
+            string citySelectQuery = "SELECT cityId FROM city WHERE city = @city AND countryId = @countryId;";
+            MySqlCommand cityCmd = new MySqlCommand(citySelectQuery, DBConnection.conn);
+            cityCmd.Parameters.AddWithValue("@city", city);
+            cityCmd.Parameters.AddWithValue("@countryId", countryId);
+            MySqlDataReader cityReader = cityCmd.ExecuteReader();
+
+            //if city exists in database with the same name and countryId, get cityId
+            if (cityReader.HasRows)
+            {
+                cityReader.Read();
+                cityId = cityReader.GetInt32("cityId");
+                cityReader.Close();
+            }
+            //else insert city into city table
+            else
+            {
+                cityReader.Close();
+                //insert city into city table
+                string cityInsertQuery = "INSERT INTO city (city, countryId, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                    "VALUES (@city, @countryId, NOW(), @createdBy, NOW(), @lastUpdateBy);";
+                MySqlCommand cityInsertCmd = new MySqlCommand(cityInsertQuery, DBConnection.conn);
+                cityInsertCmd.Parameters.AddWithValue("@city", city);
+                cityInsertCmd.Parameters.AddWithValue("@countryId", countryId);
+                cityInsertCmd.Parameters.AddWithValue("@createdBy", userSession.UserName);
+                cityInsertCmd.Parameters.AddWithValue("@lastUpdateBy", userSession.UserName);
+                cityInsertCmd.ExecuteNonQuery();
+                //get the newly inserted cityId and assign it as cityId
+                string getCityIdQuery = "SELECT LAST_INSERT_ID() AS cityId;";
+                MySqlCommand getCityIdCmd = new MySqlCommand(getCityIdQuery, DBConnection.conn);
+                MySqlDataReader getCityIdReader = getCityIdCmd.ExecuteReader();
+                getCityIdReader.Read();
+                cityId = getCityIdReader.GetInt32("cityId");
+                getCityIdReader.Close();
+            }
+
+            //logic for address table
+            string addressSelectQuery = "SELECT addressId FROM address WHERE address = @address AND cityId = @cityId " +
+                "AND postalCode = @postalCode ";
+            MySqlCommand addressCmd = new MySqlCommand(addressSelectQuery, DBConnection.conn);
+            addressCmd.Parameters.AddWithValue("@address", address);
+            addressCmd.Parameters.AddWithValue("@cityId", cityId);
+            addressCmd.Parameters.AddWithValue("@postalCode", zipCode);
+            MySqlDataReader addressReader = addressCmd.ExecuteReader();
+            if (addressReader.HasRows)
+            {
+                addressReader.Read();
+                addressId = addressReader.GetInt32("addressId");
+                addressReader.Close();
+            }
+            else
+            {
+                addressReader.Close();
+                //insert address into address table
+                string addressInsertQuery = "INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                    "VALUES (@address, '', @cityId, @postalCode, @phone, NOW(), @createdBy, NOW(), @lastUpdateBy);";
+                MySqlCommand addressInsertCmd = new MySqlCommand(addressInsertQuery, DBConnection.conn);
+                addressInsertCmd.Parameters.AddWithValue("@address", address);
+                addressInsertCmd.Parameters.AddWithValue("@cityId", cityId);
+                addressInsertCmd.Parameters.AddWithValue("@postalCode", zipCode);
+                addressInsertCmd.Parameters.AddWithValue("@phone", phoneNum);
+                addressInsertCmd.Parameters.AddWithValue("@createdBy", userSession.UserName);
+                addressInsertCmd.Parameters.AddWithValue("@lastUpdateBy", userSession.UserName);
+                addressInsertCmd.ExecuteNonQuery();
+                //get the newly inserted addressId and assign it as addressId
+                string getAddressIdQuery = "SELECT LAST_INSERT_ID() AS addressId;";
+                MySqlCommand getAddressIdCmd = new MySqlCommand(getAddressIdQuery, DBConnection.conn);
+                MySqlDataReader getAddressIdReader = getAddressIdCmd.ExecuteReader();
+                getAddressIdReader.Read();
+                addressId = getAddressIdReader.GetInt32("addressId");
+                getAddressIdReader.Close();
+            }
+
+            //insert text in name field to database using SQL command
+            string nameSelectQuery = "SELECT customerName FROM customer WHERE customerName = @name AND addressId = @addressId;";
+            MySqlCommand nameSelectCmd = new MySqlCommand(nameSelectQuery, DBConnection.conn);
+            nameSelectCmd.Parameters.AddWithValue("@name", name);
+            nameSelectCmd.Parameters.AddWithValue("@addressId", addressId);
+            MySqlDataReader nameSelectReader = nameSelectCmd.ExecuteReader();
+            if (nameSelectReader.HasRows)
+            {
+                nameSelectReader.Read();
+                MessageBox.Show("Customer already exists in database.");
+                nameSelectReader.Close();
+                DBConnection.CloseConnection();
+            }
+            else
+            {
+                nameSelectReader.Close(); 
+                string nameInsertQuery = "INSERT INTO customer (customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                    "VALUES (@name, @addressId, 1, NOW(), @createdBy, NOW(), @lastUpdateBy);";
+                MySqlCommand nameInsertCmd = new MySqlCommand(nameInsertQuery, DBConnection.conn);
+                nameInsertCmd.Parameters.AddWithValue("@name", name);
+                nameInsertCmd.Parameters.AddWithValue("@addressId", addressId);
+                nameInsertCmd.Parameters.AddWithValue("@createdBy", userSession.UserName);
+                nameInsertCmd.Parameters.AddWithValue("@lastUpdateBy", userSession.UserName);
+                nameInsertCmd.ExecuteNonQuery();
+                MessageBox.Show($"{name} added successfully to Customer Database!");
+                //close database connection
+                DBConnection.CloseConnection();
+            }
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cityLabel_Click(object sender, EventArgs e)
         {
 
         }

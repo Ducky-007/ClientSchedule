@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="userSession.cs" />
     <Compile Include="Database\DBConnection.cs" />
     <Compile Include="custRecordsForm.cs">
       <SubType>Form</SubType>
