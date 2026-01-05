@@ -95,6 +95,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="updateCustForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="updateCustForm.Designer.cs">
+      <DependentUpon>updateCustForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="userSession.cs" />
     <Compile Include="Database\DBConnection.cs" />
     <Compile Include="custRecordsForm.cs">
@@ -143,6 +149,9 @@
     <EmbeddedResource Include="Messages.fi.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.fi.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="updateCustForm.resx">
+      <DependentUpon>updateCustForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

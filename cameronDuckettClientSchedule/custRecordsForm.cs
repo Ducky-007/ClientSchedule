@@ -295,5 +295,17 @@ namespace cameronDuckettClientSchedule
         {
 
         }
+
+        private void custRecordsForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            string custNameToUpdate = custUpdateTextBox.Text.Trim();
+            //open update customer form
+            updateCustForm updateForm = new updateCustForm();
+        }
     }
 }

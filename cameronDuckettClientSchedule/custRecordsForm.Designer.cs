@@ -47,6 +47,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.custUpdateTextBox = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // addCustBtn
@@ -172,7 +175,7 @@
             // 
             // deleteCustBtn
             // 
-            this.deleteCustBtn.Location = new System.Drawing.Point(402, 119);
+            this.deleteCustBtn.Location = new System.Drawing.Point(402, 123);
             this.deleteCustBtn.Name = "deleteCustBtn";
             this.deleteCustBtn.Size = new System.Drawing.Size(115, 23);
             this.deleteCustBtn.TabIndex = 13;
@@ -201,10 +204,10 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(201, 6);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(158, 6);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(190, 25);
+            this.label2.Size = new System.Drawing.Size(203, 25);
             this.label2.TabIndex = 16;
             this.label2.Text = "CUSTOMER FORM";
             this.label2.Click += new System.EventHandler(this.label2_Click);
@@ -230,11 +233,40 @@
             this.label4.TabIndex = 18;
             this.label4.Text = "DELETE CUSTOMER";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(329, 220);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(135, 13);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "Customer Name to Update:";
+            // 
+            // custUpdateTextBox
+            // 
+            this.custUpdateTextBox.Location = new System.Drawing.Point(470, 215);
+            this.custUpdateTextBox.Name = "custUpdateTextBox";
+            this.custUpdateTextBox.Size = new System.Drawing.Size(134, 20);
+            this.custUpdateTextBox.TabIndex = 20;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(402, 255);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(130, 30);
+            this.button1.TabIndex = 21;
+            this.button1.Text = "Update Customer";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // custRecordsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(708, 331);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.custUpdateTextBox);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -257,6 +289,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "custRecordsForm";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.custRecordsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -283,5 +316,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox custUpdateTextBox;
+        private System.Windows.Forms.Button button1;
     }
 }
