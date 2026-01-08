@@ -12,15 +12,17 @@ namespace cameronDuckettClientSchedule
 {
     public partial class updateCustForm : Form
     {
-        public updateCustForm()
+        //call value of custNameToUpdate from mainForm
+        string _custName;
+        public updateCustForm(string custName)
         {
             InitializeComponent();
+            _custName = custName;
         }
 
         private void updateCustForm_Load(object sender, EventArgs e)
         {
-            //change custCurrInfo label to show current customer info
-            custCurrInfo.Text = $"{custNameToUpdate}";
+            custCurrInfo.Text = $"You are editing {_custName}'s information!";
         }
 
         private void label2_Click(object sender, EventArgs e)

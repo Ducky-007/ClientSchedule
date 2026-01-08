@@ -304,8 +304,24 @@ namespace cameronDuckettClientSchedule
         private void button1_Click_1(object sender, EventArgs e)
         {
             string custNameToUpdate = custUpdateTextBox.Text.Trim();
-            //open update customer form
-            updateCustForm updateForm = new updateCustForm();
+            //if name is in database, open update customer form
+            //query database to ensure name is already in customer table, if not don't open form
+            DBConnection.OpenConnection();
+            string nameExistQuery = "SELECT customerName FROM customer" +
+                                     " WHERE customerName = @customerName;";
+            MySqlCommand nameCheckCmd = new MySqlCommand(nameExistQuery, DBConnection.conn);
+            nameCheckCmd.Parameters.AddWithValue("customerName", custNameToUpdate);
+            MySqlDataReader reader = nameCheckCmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                updateCustForm updateForm = new updateCustForm(custNameToUpdate);
+                updateForm.Show();
+            }
+            else
+            {
+                MessageBox.Show($"Customer '{custNameToUpdate}' does not exist in the database.");
+            }
+            DBConnection.CloseConnection();
         }
     }
 }
