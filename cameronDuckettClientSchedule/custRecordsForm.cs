@@ -316,6 +316,7 @@ namespace cameronDuckettClientSchedule
             {
                 updateCustForm updateForm = new updateCustForm(custNameToUpdate);
                 updateForm.Show();
+                this.Hide();
             }
             else
             {
