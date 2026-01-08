@@ -35,10 +35,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.currName = new System.Windows.Forms.Label();
-            this.currAddress = new System.Windows.Forms.Label();
-            this.currCity = new System.Windows.Forms.Label();
-            this.currZip = new System.Windows.Forms.Label();
-            this.CurrPhoneNum = new System.Windows.Forms.Label();
             this.custCurrInfo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -51,6 +47,7 @@
             this.label1.Size = new System.Drawing.Size(395, 31);
             this.label1.TabIndex = 0;
             this.label1.Text = "UPDATE CUSTOMER FORM";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -103,50 +100,13 @@
             this.currName.AutoSize = true;
             this.currName.Location = new System.Drawing.Point(163, 116);
             this.currName.Name = "currName";
-            this.currName.Size = new System.Drawing.Size(72, 13);
+            this.currName.Size = new System.Drawing.Size(0, 9);
             this.currName.TabIndex = 6;
-            this.currName.Text = "Current Name";
-            // 
-            // currAddress
-            // 
-            this.currAddress.AutoSize = true;
-            this.currAddress.Location = new System.Drawing.Point(163, 146);
-            this.currAddress.Name = "currAddress";
-            this.currAddress.Size = new System.Drawing.Size(82, 13);
-            this.currAddress.TabIndex = 7;
-            this.currAddress.Text = "Current Address";
-            // 
-            // currCity
-            // 
-            this.currCity.AutoSize = true;
-            this.currCity.Location = new System.Drawing.Point(163, 178);
-            this.currCity.Name = "currCity";
-            this.currCity.Size = new System.Drawing.Size(61, 13);
-            this.currCity.TabIndex = 8;
-            this.currCity.Text = "Current City";
-            // 
-            // currZip
-            // 
-            this.currZip.AutoSize = true;
-            this.currZip.Location = new System.Drawing.Point(163, 209);
-            this.currZip.Name = "currZip";
-            this.currZip.Size = new System.Drawing.Size(87, 13);
-            this.currZip.TabIndex = 9;
-            this.currZip.Text = "Current Zip Code";
-            // 
-            // CurrPhoneNum
-            // 
-            this.CurrPhoneNum.AutoSize = true;
-            this.CurrPhoneNum.Location = new System.Drawing.Point(163, 239);
-            this.CurrPhoneNum.Name = "CurrPhoneNum";
-            this.CurrPhoneNum.Size = new System.Drawing.Size(115, 13);
-            this.CurrPhoneNum.TabIndex = 10;
-            this.CurrPhoneNum.Text = "Current Phone Number";
             // 
             // custCurrInfo
             // 
             this.custCurrInfo.AutoSize = true;
-            this.custCurrInfo.Location = new System.Drawing.Point(55, 80);
+            this.custCurrInfo.Location = new System.Drawing.Point(200, 79);
             this.custCurrInfo.Name = "custCurrInfo";
             this.custCurrInfo.Size = new System.Drawing.Size(85, 13);
             this.custCurrInfo.TabIndex = 11;
@@ -159,10 +119,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.custCurrInfo);
-            this.Controls.Add(this.CurrPhoneNum);
-            this.Controls.Add(this.currZip);
-            this.Controls.Add(this.currCity);
-            this.Controls.Add(this.currAddress);
             this.Controls.Add(this.currName);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -187,10 +143,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label currName;
-        private System.Windows.Forms.Label currAddress;
-        private System.Windows.Forms.Label currCity;
-        private System.Windows.Forms.Label currZip;
-        private System.Windows.Forms.Label CurrPhoneNum;
         private System.Windows.Forms.Label custCurrInfo;
     }
 }

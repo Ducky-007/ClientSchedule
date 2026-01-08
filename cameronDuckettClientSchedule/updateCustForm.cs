@@ -1,4 +1,6 @@
-﻿using System;
+﻿using cameronDuckettClientSchedule.Database;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +16,7 @@ namespace cameronDuckettClientSchedule
     {
         //call value of custNameToUpdate from mainForm
         string _custName;
+        int custId;
         public updateCustForm(string custName)
         {
             InitializeComponent();
@@ -22,7 +25,8 @@ namespace cameronDuckettClientSchedule
 
         private void updateCustForm_Load(object sender, EventArgs e)
         {
-            custCurrInfo.Text = $"You are editing {_custName}'s information!";
+            label1.Text = $"UPDATE {_custName.ToUpper()}'S INFORMATION";
+            custCurrInfo.Text = $"Enter Information into all fields you want to update for {_custName}";
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -33,6 +37,10 @@ namespace cameronDuckettClientSchedule
         private void custCurrInfo_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
         }
     }
 }
