@@ -60,10 +60,12 @@ namespace cameronDuckettClientSchedule
                 string.IsNullOrWhiteSpace(phone))
             {
                 MessageBox.Show($"Enter values into all fields!");
+                return;
             }
             if (!Regex.IsMatch(phone, @"^[0-9-]+$"))
             {
                 MessageBox.Show("Phone number must contain only digits and dashes.");
+                return;
             }
 
             try
@@ -124,6 +126,23 @@ namespace cameronDuckettClientSchedule
                 //check address
                 int addressId = 0;
                 int addressIdtoDel = 0;
+
+                //get old addressId to delete later
+                string getOldAddressIdQuery = "SELECT addressId from customer where customerName = @customerName";
+                MySqlCommand getOldAddressIdCmd = new MySqlCommand(getOldAddressIdQuery, DBConnection.conn);
+                getOldAddressIdCmd.Parameters.AddWithValue("@customerName", _custName);
+                MySqlDataReader oldAddressIdReader = getOldAddressIdCmd.ExecuteReader();
+                if (oldAddressIdReader.Read())
+                {
+                    addressIdtoDel = oldAddressIdReader.GetInt32("addressId");
+                    oldAddressIdReader.Close();
+                }
+                else
+                {
+                    oldAddressIdReader.Close();
+                    MessageBox.Show("Could not find old address ID to delete.");
+                }
+
                 string getAddressIdQuery = "SELECT addressId from address where address = @address";
                 MySqlCommand getAddressId = new MySqlCommand(getAddressIdQuery, DBConnection.conn);
                 getAddressId.Parameters.AddWithValue("@address", address);
@@ -131,8 +150,6 @@ namespace cameronDuckettClientSchedule
                 if (addressIdReader.Read())
                 {
                     addressId = addressIdReader.GetInt32("addressId");
-                    //copy addressId to use to delete once cust is updated
-                    addressIdtoDel = addressIdReader.GetInt32("addressId");
                     addressIdReader.Close();
                 }
                 else
@@ -154,7 +171,7 @@ namespace cameronDuckettClientSchedule
 
                 //finally, update customer info
                 string updateCustomerQuery = "UPDATE customer SET customerName = @customerName, addressId = @addressId, " +
-                    "active = 1, createDate = NOW(), createdBy = @lastUpdateBy, lastUpdate = NOW(), lastUpdateBy = @lastUpdateBy WHERE customerName = @oldCustomerName";
+                    "active = 1, lastUpdate = NOW(), lastUpdateBy = @lastUpdateBy WHERE customerName = @oldCustomerName";
                 MySqlCommand updateCustomerCmd = new MySqlCommand(updateCustomerQuery, DBConnection.conn);
                 updateCustomerCmd.Parameters.AddWithValue("@customerName", name);
                 updateCustomerCmd.Parameters.AddWithValue("@addressId", addressId);
@@ -163,14 +180,23 @@ namespace cameronDuckettClientSchedule
                 updateCustomerCmd.ExecuteNonQuery();
                 MessageBox.Show($"Customer {_custName} updated successfully to {name}!");
 
-                //FIGURE OUT A WAY TO DELETE OLD ADDRESS IF NO OTHER CUSTOMER USES IT
                 //delete old address
-                string delOldAddressQuery = "DELETE FROM address WHERE addressId = @oldAddressId";
-                MySqlCommand delAddressCmd = new MySqlCommand(delOldAddressQuery, DBConnection.conn);
-                delAddressCmd.Parameters.AddWithValue("oldAddressId", addressIdtoDel);
-                delAddressCmd.ExecuteNonQuery();
-                MessageBox.Show($"Old address '{addressIdtoDel}' now deleted from database!");
+                if (addressIdtoDel != 0 && addressIdtoDel != addressId)
+                {
+                    //if two users had the same address, don't delete it
+                    string checkAddressUsageQuery = "SELECT COUNT(*) AS usageCount FROM customer WHERE addressId = @oldAddressId";
+                    MySqlCommand checkAddressUsageCmd = new MySqlCommand(checkAddressUsageQuery, DBConnection.conn);
+                    checkAddressUsageCmd.Parameters.AddWithValue("oldAddressId", addressIdtoDel);
+                    int usageCount = Convert.ToInt32(checkAddressUsageCmd.ExecuteScalar());
 
+                    if (usageCount == 0)
+                    {
+                        string delOldAddressQuery = "DELETE FROM address WHERE addressId = @oldAddressId";
+                        MySqlCommand delAddressCmd = new MySqlCommand(delOldAddressQuery, DBConnection.conn);
+                        delAddressCmd.Parameters.AddWithValue("oldAddressId", addressIdtoDel);
+                        delAddressCmd.ExecuteNonQuery();
+                    }
+                }
                 this.Close();
                 custRecordsForm custForm = new custRecordsForm();
                 custForm.Show();
