@@ -5,15 +5,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using System.Globalization;
-using System.Runtime.Remoting.Messaging;
-using System.Diagnostics.Eventing.Reader;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace cameronDuckettClientSchedule
 {
@@ -23,7 +24,7 @@ namespace cameronDuckettClientSchedule
         {
             InitializeComponent();
             // set label to display user location
-            label3.Text = Messages.label3;
+            label3.Text = $"{Messages.label3}";
             label1.Text = Messages.label1;
             usernameLabel.Text = Messages.usernameLabel;
             pwLabel.Text = Messages.pwLabel;
@@ -64,13 +65,14 @@ namespace cameronDuckettClientSchedule
 
                 //close login form
                 this.Hide();
+                //close connection
+                DBConnection.CloseConnection();
             }
             else
             {
                 MessageBox.Show($"{Messages.loginFail}");
+                return;
             }
-            //close connection
-            DBConnection.CloseConnection();
         }
 
         private void label3_Click(object sender, EventArgs e)

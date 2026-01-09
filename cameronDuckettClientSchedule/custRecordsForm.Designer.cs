@@ -50,6 +50,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.custUpdateTextBox = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.addAppointBtn = new System.Windows.Forms.Button();
+            this.updateAppointBtn = new System.Windows.Forms.Button();
+            this.delAppointBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // addCustBtn
@@ -175,7 +179,7 @@
             // 
             // deleteCustBtn
             // 
-            this.deleteCustBtn.Location = new System.Drawing.Point(402, 123);
+            this.deleteCustBtn.Location = new System.Drawing.Point(347, 136);
             this.deleteCustBtn.Name = "deleteCustBtn";
             this.deleteCustBtn.Size = new System.Drawing.Size(115, 23);
             this.deleteCustBtn.TabIndex = 13;
@@ -185,7 +189,7 @@
             // 
             // custDelTextBox
             // 
-            this.custDelTextBox.Location = new System.Drawing.Point(470, 86);
+            this.custDelTextBox.Location = new System.Drawing.Point(415, 99);
             this.custDelTextBox.Name = "custDelTextBox";
             this.custDelTextBox.Size = new System.Drawing.Size(134, 20);
             this.custDelTextBox.TabIndex = 14;
@@ -194,7 +198,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(333, 86);
+            this.label1.Location = new System.Drawing.Point(278, 99);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(131, 13);
             this.label1.TabIndex = 15;
@@ -216,7 +220,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(351, 175);
+            this.label3.Location = new System.Drawing.Point(296, 188);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(213, 24);
             this.label3.TabIndex = 17;
@@ -227,7 +231,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(351, 39);
+            this.label4.Location = new System.Drawing.Point(296, 52);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(211, 24);
             this.label4.TabIndex = 18;
@@ -236,7 +240,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(329, 220);
+            this.label5.Location = new System.Drawing.Point(274, 233);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(135, 13);
             this.label5.TabIndex = 19;
@@ -244,14 +248,14 @@
             // 
             // custUpdateTextBox
             // 
-            this.custUpdateTextBox.Location = new System.Drawing.Point(470, 215);
+            this.custUpdateTextBox.Location = new System.Drawing.Point(415, 228);
             this.custUpdateTextBox.Name = "custUpdateTextBox";
             this.custUpdateTextBox.Size = new System.Drawing.Size(134, 20);
             this.custUpdateTextBox.TabIndex = 20;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(402, 255);
+            this.button1.Location = new System.Drawing.Point(347, 268);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(130, 30);
             this.button1.TabIndex = 21;
@@ -259,11 +263,52 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(760, 9);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(155, 25);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Appointments";
+            // 
+            // addAppointBtn
+            // 
+            this.addAppointBtn.Location = new System.Drawing.Point(765, 40);
+            this.addAppointBtn.Name = "addAppointBtn";
+            this.addAppointBtn.Size = new System.Drawing.Size(150, 23);
+            this.addAppointBtn.TabIndex = 23;
+            this.addAppointBtn.Text = "ADD APPOINTMENT";
+            this.addAppointBtn.UseVisualStyleBackColor = true;
+            // 
+            // updateAppointBtn
+            // 
+            this.updateAppointBtn.Location = new System.Drawing.Point(765, 138);
+            this.updateAppointBtn.Name = "updateAppointBtn";
+            this.updateAppointBtn.Size = new System.Drawing.Size(150, 23);
+            this.updateAppointBtn.TabIndex = 24;
+            this.updateAppointBtn.Text = "UPDATE APPOINTMENT";
+            this.updateAppointBtn.UseVisualStyleBackColor = true;
+            // 
+            // delAppointBtn
+            // 
+            this.delAppointBtn.Location = new System.Drawing.Point(765, 89);
+            this.delAppointBtn.Name = "delAppointBtn";
+            this.delAppointBtn.Size = new System.Drawing.Size(150, 23);
+            this.delAppointBtn.TabIndex = 25;
+            this.delAppointBtn.Text = "DELETE APPOINTMENT";
+            this.delAppointBtn.UseVisualStyleBackColor = true;
+            // 
             // custRecordsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(708, 331);
+            this.ClientSize = new System.Drawing.Size(1452, 514);
+            this.Controls.Add(this.delAppointBtn);
+            this.Controls.Add(this.updateAppointBtn);
+            this.Controls.Add(this.addAppointBtn);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.custUpdateTextBox);
             this.Controls.Add(this.label5);
@@ -319,5 +364,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox custUpdateTextBox;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button addAppointBtn;
+        private System.Windows.Forms.Button updateAppointBtn;
+        private System.Windows.Forms.Button delAppointBtn;
     }
 }

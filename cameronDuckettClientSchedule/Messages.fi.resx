@@ -124,7 +124,7 @@
     <value>Nykyinen sijainti: Suomi</value>
   </data>
   <data name="loginButton" xml:space="preserve">
-    <value>Kirjaudu sisään</value>
+    <value>Kirjaudu sisään:</value>
   </data>
   <data name="loginFail" xml:space="preserve">
     <value>Kirjautuminen epäonnistui. Tarkista käyttäjätunnuksesi ja salasanasi.</value>
