@@ -324,5 +324,13 @@ namespace cameronDuckettClientSchedule
             }
             DBConnection.CloseConnection();
         }
+
+        private void addAppointBtn_Click(object sender, EventArgs e)
+        {
+            //open add appointment form
+            addAppointmentForm addAppForm = new addAppointmentForm();
+            addAppForm.Show();
+            this.Hide();
+        }
     }
 }

@@ -95,6 +95,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="addAppointmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="addAppointmentForm.Designer.cs">
+      <DependentUpon>addAppointmentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="updateCustForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +133,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.fi.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="addAppointmentForm.resx">
+      <DependentUpon>addAppointmentForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="custRecordsForm.resx">
       <DependentUpon>custRecordsForm.cs</DependentUpon>
     </EmbeddedResource>

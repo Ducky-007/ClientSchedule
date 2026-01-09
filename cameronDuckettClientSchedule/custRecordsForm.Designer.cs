@@ -281,6 +281,7 @@
             this.addAppointBtn.TabIndex = 23;
             this.addAppointBtn.Text = "ADD APPOINTMENT";
             this.addAppointBtn.UseVisualStyleBackColor = true;
+            this.addAppointBtn.Click += new System.EventHandler(this.addAppointBtn_Click);
             // 
             // updateAppointBtn
             // 
