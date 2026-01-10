@@ -1,4 +1,6 @@
 ﻿using cameronDuckettClientSchedule.Database;
+using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -68,14 +70,64 @@ namespace cameronDuckettClientSchedule
             TimeSpan closeTime = new TimeSpan(17, 0, 0); //5:00 PM
             if (startEST.TimeOfDay < openTime || endEST.TimeOfDay > closeTime)
             {
-                MessageBox.Show("Appointments can only be scheduled between 9:00 AM and 5:00 PM EST.");
+                MessageBox.Show("Appointments can only be scheduled Monday - Friday between 9:00 AM and 5:00 PM EST.");
                 return;
             }
             try
             {
                 DBConnection.OpenConnection();
 
-                //TODO: Check for overlapping appointments for the same customer
+                //LOGIC: an appointment overlaps if its start time is before another appointment's end time
+                //and its end time is after another appointment's start time
+                //Convert to UTC as DB will store datetime as UTC
+                DateTime startUTC = start.ToUniversalTime();
+                DateTime endUTC = end.ToUniversalTime();
+
+                string overlapQuery = "SELECT COUNT(*) FROM appointments WHERE " +
+                                      "(@start < end AND @end > start AND userID = @userId)";
+                MySqlCommand checkCmd = new MySqlCommand(overlapQuery, DBConnection.conn);
+                checkCmd.Parameters.AddWithValue("@start", startUTC);
+                checkCmd.Parameters.AddWithValue("@end", endUTC);
+                checkCmd.Parameters.AddWithValue("@userId", userSession.UserId);
+                int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                if (count > 0)
+                {
+                    MessageBox.Show($"This time slot overlaps with an existing appointment. Please pick another time slot");
+                    return;
+                }
+
+                //insert appointment to appointment table
+                //get customerId
+                string customerIdQuery = "SELECT customerId FROM customer WHERE customername = @name";
+                MySqlCommand customerCmd = new MySqlCommand(customerIdQuery, DBConnection.conn);
+                customerCmd.Parameters.AddWithValue("@name", name);
+                object customer = customerCmd.ExecuteScalar();
+                if (customer == null)
+                {
+                    MessageBox.Show($"Customer not found. Please verify you entered the correct customer name.");
+                    return;
+                }
+                int customerId = Convert.ToInt32(customer);
+
+                //insert appointment
+                string insertAppointmentQuery = "INSERT INTO appointment(customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                                                "VALUES(@customerId, @userId, @title, @description, @location, @contact, @type, @url, @start, @end, NOW(), @createdBy, NOW(), @lastUpdateBy)";
+                MySqlCommand insertAppointmentCmd = new MySqlCommand(insertAppointmentQuery, DBConnection.conn);
+                insertAppointmentCmd.Parameters.AddWithValue("@customerId", customerId);
+                insertAppointmentCmd.Parameters.AddWithValue("@userId", userSession.UserId);
+                insertAppointmentCmd.Parameters.AddWithValue("@title", title);
+                insertAppointmentCmd.Parameters.AddWithValue("@description", description);
+                insertAppointmentCmd.Parameters.AddWithValue("@location", location);
+                insertAppointmentCmd.Parameters.AddWithValue("@contact", contact);
+                insertAppointmentCmd.Parameters.AddWithValue("@type", type);
+                insertAppointmentCmd.Parameters.AddWithValue("@url", url);
+                insertAppointmentCmd.Parameters.AddWithValue("@start", startUTC);
+                insertAppointmentCmd.Parameters.AddWithValue("@end", endUTC);
+                insertAppointmentCmd.Parameters.AddWithValue("@createdBy", userSession.UserName);
+                insertAppointmentCmd.Parameters.AddWithValue("@lastUpdateBy", userSession.UserName);
+                insertAppointmentCmd.ExecuteNonQuery();
+                MessageBox.Show($"Appointment '{title}' added successfully!");
             }
             catch (Exception ex)
             {

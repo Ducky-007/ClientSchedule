@@ -9,5 +9,6 @@ namespace cameronDuckettClientSchedule
     public static class userSession
     {
         public static string UserName { get; set; }
+        public static int UserId { get; set; }
     }
 }

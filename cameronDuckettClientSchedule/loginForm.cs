@@ -1,5 +1,6 @@
 ﻿using cameronDuckettClientSchedule.Database;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Bcpg;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -56,15 +57,20 @@ namespace cameronDuckettClientSchedule
             MySqlDataReader reader = cmd.ExecuteReader();
             if (reader.HasRows)
             {
+                reader.Read();
                 MessageBox.Show($"{Messages.loginSuccess} {username}!");
                 //set current user session username through userSession static class
                 userSession.UserName = username;
+                //set userId for userSession
+                int currUserId = reader.GetInt32("userId");
+                userSession.UserId = currUserId;
                 //open main form
                 custRecordsForm custForm = new custRecordsForm();
                 custForm.Show();
 
                 //close login form
                 this.Hide();
+                reader.Close();
                 //close connection
                 DBConnection.CloseConnection();
             }
