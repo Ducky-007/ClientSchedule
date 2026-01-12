@@ -54,6 +54,11 @@
             this.addAppointBtn = new System.Windows.Forms.Button();
             this.updateAppointBtn = new System.Windows.Forms.Button();
             this.delAppointBtn = new System.Windows.Forms.Button();
+            this.titleToUpdate = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.nameToUpdate = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // addCustBtn
@@ -285,12 +290,13 @@
             // 
             // updateAppointBtn
             // 
-            this.updateAppointBtn.Location = new System.Drawing.Point(765, 138);
+            this.updateAppointBtn.Location = new System.Drawing.Point(765, 233);
             this.updateAppointBtn.Name = "updateAppointBtn";
             this.updateAppointBtn.Size = new System.Drawing.Size(150, 23);
             this.updateAppointBtn.TabIndex = 24;
             this.updateAppointBtn.Text = "UPDATE APPOINTMENT";
             this.updateAppointBtn.UseVisualStyleBackColor = true;
+            this.updateAppointBtn.Click += new System.EventHandler(this.updateAppointBtn_Click);
             // 
             // delAppointBtn
             // 
@@ -300,12 +306,59 @@
             this.delAppointBtn.TabIndex = 25;
             this.delAppointBtn.Text = "DELETE APPOINTMENT";
             this.delAppointBtn.UseVisualStyleBackColor = true;
+            this.delAppointBtn.Click += new System.EventHandler(this.delAppointBtn_Click);
+            // 
+            // titleToUpdate
+            // 
+            this.titleToUpdate.Location = new System.Drawing.Point(765, 185);
+            this.titleToUpdate.Name = "titleToUpdate";
+            this.titleToUpdate.Size = new System.Drawing.Size(225, 20);
+            this.titleToUpdate.TabIndex = 29;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(610, 187);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(151, 13);
+            this.label13.TabIndex = 28;
+            this.label13.Text = "Appointment Title to UPDATE:";
+            // 
+            // nameToUpdate
+            // 
+            this.nameToUpdate.Location = new System.Drawing.Point(765, 135);
+            this.nameToUpdate.Name = "nameToUpdate";
+            this.nameToUpdate.Size = new System.Drawing.Size(225, 20);
+            this.nameToUpdate.TabIndex = 27;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(598, 125);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(155, 13);
+            this.label12.TabIndex = 26;
+            this.label12.Text = "Customer Name of appointment";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(645, 149);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(66, 13);
+            this.label7.TabIndex = 30;
+            this.label7.Text = "to UPDATE:";
             // 
             // custRecordsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1452, 514);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.titleToUpdate);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.nameToUpdate);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.delAppointBtn);
             this.Controls.Add(this.updateAppointBtn);
             this.Controls.Add(this.addAppointBtn);
@@ -369,5 +422,10 @@
         private System.Windows.Forms.Button addAppointBtn;
         private System.Windows.Forms.Button updateAppointBtn;
         private System.Windows.Forms.Button delAppointBtn;
+        private System.Windows.Forms.TextBox titleToUpdate;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox nameToUpdate;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label7;
     }
 }

@@ -101,6 +101,12 @@
     <Compile Include="addAppointmentForm.Designer.cs">
       <DependentUpon>addAppointmentForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="updateAppointmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="updateAppointmentForm.Designer.cs">
+      <DependentUpon>updateAppointmentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="updateCustForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +164,9 @@
     <EmbeddedResource Include="Messages.fi.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.fi.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="updateAppointmentForm.resx">
+      <DependentUpon>updateAppointmentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="updateCustForm.resx">
       <DependentUpon>updateCustForm.cs</DependentUpon>

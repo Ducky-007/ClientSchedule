@@ -332,5 +332,47 @@ namespace cameronDuckettClientSchedule
             addAppForm.Show();
             this.Hide();
         }
+
+        private void delAppointBtn_Click(object sender, EventArgs e)
+        {
+            //open add appointment form
+            addAppointmentForm addAppForm = new addAppointmentForm();
+            addAppForm.Show();
+            this.Hide();
+        }
+
+        private void updateAppointBtn_Click(object sender, EventArgs e)
+        {
+            string nameUpdate = nameToUpdate.Text.Trim();
+            string titleUpdate = titleToUpdate.Text.Trim();
+            if (string.IsNullOrWhiteSpace(nameUpdate) || string.IsNullOrWhiteSpace(titleUpdate))
+            {
+                MessageBox.Show("Please enter both customer name and appointment title to update an appointment.");
+                return;
+            }
+            //ensure there is an appointment in the database that matches the customer name and appointment title and userId before opening update appointment form
+            DBConnection.OpenConnection();
+            string appointExistQuery = "SELECT a.appointmentId FROM appointment a " +
+                                       "JOIN customer c ON a.customerId = c.customerId " +
+                                       "WHERE c.customerName = @customerName AND a.title = @appointmentTitle " +
+                                       "AND a.userId = @userId;";
+            MySqlCommand appointCheckCmd = new MySqlCommand(appointExistQuery, DBConnection.conn);
+            appointCheckCmd.Parameters.AddWithValue("@customerName", nameUpdate);
+            appointCheckCmd.Parameters.AddWithValue("@appointmentTitle", titleUpdate);
+            appointCheckCmd.Parameters.AddWithValue("@userId", userSession.UserId);
+            MySqlDataReader reader = appointCheckCmd.ExecuteReader();
+            if (!reader.HasRows)
+            {
+                MessageBox.Show($"No appointment found for customer '{nameUpdate}' with title '{titleUpdate}'.");
+                DBConnection.CloseConnection();
+                return;
+            }
+            DBConnection.CloseConnection();
+
+            //open update appointment form
+            updateAppointmentForm updateAppForm = new updateAppointmentForm();
+            updateAppForm.Show();
+            this.Hide();
+        }
     }
 }
