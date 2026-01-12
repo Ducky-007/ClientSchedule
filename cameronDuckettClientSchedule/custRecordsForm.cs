@@ -370,9 +370,14 @@ namespace cameronDuckettClientSchedule
             DBConnection.CloseConnection();
 
             //open update appointment form
-            updateAppointmentForm updateAppForm = new updateAppointmentForm();
+            updateAppointmentForm updateAppForm = new updateAppointmentForm(nameUpdate, titleUpdate);
             updateAppForm.Show();
             this.Hide();
+        }
+
+        private void titleToUpdate_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

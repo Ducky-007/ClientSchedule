@@ -69,6 +69,7 @@
             this.addAppointBtn.TabIndex = 38;
             this.addAppointBtn.Text = "UPDATE";
             this.addAppointBtn.UseVisualStyleBackColor = true;
+            this.addAppointBtn.Click += new System.EventHandler(this.addAppointBtn_Click);
             // 
             // appointmentEndTextBox
             // 
@@ -241,6 +242,7 @@
             this.Controls.Add(this.label1);
             this.Name = "updateAppointmentForm";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.updateAppointmentForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

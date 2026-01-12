@@ -314,6 +314,7 @@
             this.titleToUpdate.Name = "titleToUpdate";
             this.titleToUpdate.Size = new System.Drawing.Size(225, 20);
             this.titleToUpdate.TabIndex = 29;
+            this.titleToUpdate.TextChanged += new System.EventHandler(this.titleToUpdate_TextChanged);
             // 
             // label13
             // 
