@@ -21,6 +21,11 @@ namespace cameronDuckettClientSchedule
         public custRecordsForm()
         {
             InitializeComponent();
+
+            //bind empty list to dailyAppts on load
+            //set the list as the data source for the data grid view
+            dataGridView1.DataSource = dailyAppts;
+
             //create custom columns for dgv
             dataGridView1.AutoGenerateColumns = false;
 
@@ -48,10 +53,6 @@ namespace cameronDuckettClientSchedule
             endCol.DataPropertyName = "EndLocal";
             endCol.HeaderText = "End Time";
             dataGridView1.Columns.Add(endCol);
-
-            //bind empty list to dailyAppts on load
-            //set the list as the data source for the data grid view
-            dataGridView1.DataSource = dailyAppts;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -347,8 +348,9 @@ namespace cameronDuckettClientSchedule
                 DateTime utcNow = DateTime.UtcNow;
                 DateTime utcNowPlus15 = utcNow.AddMinutes(15);
 
-                string upcomingApptQuery = "SELECT a.appointmentId, a.title, a.start " +
+                string upcomingApptQuery = "SELECT a.appointmentId, a.title, a.start, c.customerName " +
                                            "FROM appointment a " +
+                                           "JOIN customer c on a.customerId = c.customerId " +
                                            "WHERE a.userId = @userId " +
                                            "AND a.start BETWEEN @now AND @nowPlus15;";
                 MySqlCommand upcomingApptCmd = new MySqlCommand(upcomingApptQuery, DBConnection.conn);
@@ -358,20 +360,28 @@ namespace cameronDuckettClientSchedule
                 MySqlDataReader upcomingApptReader = upcomingApptCmd.ExecuteReader();
                 if (upcomingApptReader.HasRows)
                 {
-                    upcomingApptReader.Read();
-                    int apptId = upcomingApptReader.GetInt32("appointmentId");
-                    string apptTitle = upcomingApptReader.GetString("title");
-                    DateTime apptStartUtc = upcomingApptReader.GetDateTime("start");
-                    DateTime apptStartLocal = apptStartUtc.ToLocalTime();
-                    MessageBox.Show($"Alert: You have an upcoming appointment!\n\n" +
-                                    $"Appointment ID: {apptId}\n" +
-                                    $"Title: {apptTitle}\n" +
-                                    $"Start Time: {apptStartLocal}");
+                    while (upcomingApptReader.Read()) 
+                    {
+                        string customerName = upcomingApptReader.GetString("customerName");
+                        DateTime startTimeUtc = upcomingApptReader.GetDateTime("start");
+                        DateTime startLocal = startTimeUtc.ToLocalTime();
+
+                        MessageBox.Show($"You have an upcoming appointment ({upcomingApptReader.GetString("title")}) " +
+                                        $"with {customerName} at {startLocal:t}.");
+                    }
                 }
                 else
                 {
                     MessageBox.Show("You have no appointments within the next 15 minutes.");
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+            finally
+            {
+                DBConnection.CloseConnection();
             }
         }
 
@@ -424,6 +434,7 @@ namespace cameronDuckettClientSchedule
                 MessageBox.Show("Please enter both customer name and appointment title to update an appointment.");
                 return;
             }
+
             //ensure there is an appointment in the database that matches the customer name and appointment title and userId before opening update appointment form
             DBConnection.OpenConnection();
             string appointExistQuery = "SELECT a.appointmentId FROM appointment a " +
@@ -441,10 +452,13 @@ namespace cameronDuckettClientSchedule
                 DBConnection.CloseConnection();
                 return;
             }
+            reader.Read();
+            int foundApptId = reader.GetInt32("appointmentId");
+            reader.Close();
             DBConnection.CloseConnection();
 
             //open update appointment form
-            updateAppointmentForm updateAppForm = new updateAppointmentForm(nameUpdate, titleUpdate, reader.GetInt32("appointmentId"));
+            updateAppointmentForm updateAppForm = new updateAppointmentForm(nameUpdate, titleUpdate, foundApptId);
             updateAppForm.Show();
             this.Hide();
         }
@@ -457,7 +471,6 @@ namespace cameronDuckettClientSchedule
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
             DateTime selectedDate = monthCalendar1.SelectionRange.Start;
-            //clear current view
 
             //query database for appointments on selected date (use start of day and end of day for selected date)
             //convert DB times with TimeZone
