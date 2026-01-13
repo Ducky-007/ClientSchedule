@@ -331,7 +331,48 @@ namespace cameronDuckettClientSchedule
 
         private void custRecordsForm_Load(object sender, EventArgs e)
         {
+            //create alert if user logs in and has an appointment within 15 minutes
+            //create function to call the alert on load
+            CheckUpcomingAppts();
+        }
 
+        private void CheckUpcomingAppts()
+        {
+            try
+            {
+                DBConnection.OpenConnection();
+
+                //query database for user for any appts that start now - now + 15 minutes
+                //use UTC time for comparison as that's how data is stored in database
+                DateTime utcNow = DateTime.UtcNow;
+                DateTime utcNowPlus15 = utcNow.AddMinutes(15);
+
+                string upcomingApptQuery = "SELECT a.appointmentId, a.title, a.start " +
+                                           "FROM appointment a " +
+                                           "WHERE a.userId = @userId " +
+                                           "AND a.start BETWEEN @now AND @nowPlus15;";
+                MySqlCommand upcomingApptCmd = new MySqlCommand(upcomingApptQuery, DBConnection.conn);
+                upcomingApptCmd.Parameters.AddWithValue("@userId", userSession.UserId);
+                upcomingApptCmd.Parameters.AddWithValue("@now", utcNow);
+                upcomingApptCmd.Parameters.AddWithValue("@nowPlus15", utcNowPlus15);
+                MySqlDataReader upcomingApptReader = upcomingApptCmd.ExecuteReader();
+                if (upcomingApptReader.HasRows)
+                {
+                    upcomingApptReader.Read();
+                    int apptId = upcomingApptReader.GetInt32("appointmentId");
+                    string apptTitle = upcomingApptReader.GetString("title");
+                    DateTime apptStartUtc = upcomingApptReader.GetDateTime("start");
+                    DateTime apptStartLocal = apptStartUtc.ToLocalTime();
+                    MessageBox.Show($"Alert: You have an upcoming appointment!\n\n" +
+                                    $"Appointment ID: {apptId}\n" +
+                                    $"Title: {apptTitle}\n" +
+                                    $"Start Time: {apptStartLocal}");
+                }
+                else
+                {
+                    MessageBox.Show("You have no appointments within the next 15 minutes.");
+                }
+            }
         }
 
         private void button1_Click_1(object sender, EventArgs e)
