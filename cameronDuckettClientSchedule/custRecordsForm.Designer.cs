@@ -61,6 +61,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label8 = new System.Windows.Forms.Label();
+            this.reportsBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -187,7 +189,7 @@
             // 
             // deleteCustBtn
             // 
-            this.deleteCustBtn.Location = new System.Drawing.Point(358, 201);
+            this.deleteCustBtn.Location = new System.Drawing.Point(357, 184);
             this.deleteCustBtn.Name = "deleteCustBtn";
             this.deleteCustBtn.Size = new System.Drawing.Size(115, 23);
             this.deleteCustBtn.TabIndex = 13;
@@ -197,7 +199,7 @@
             // 
             // custDelTextBox
             // 
-            this.custDelTextBox.Location = new System.Drawing.Point(426, 164);
+            this.custDelTextBox.Location = new System.Drawing.Point(425, 147);
             this.custDelTextBox.Name = "custDelTextBox";
             this.custDelTextBox.Size = new System.Drawing.Size(134, 20);
             this.custDelTextBox.TabIndex = 14;
@@ -206,7 +208,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(289, 164);
+            this.label1.Location = new System.Drawing.Point(288, 147);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(131, 13);
             this.label1.TabIndex = 15;
@@ -228,7 +230,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(307, 253);
+            this.label3.Location = new System.Drawing.Point(306, 256);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(213, 24);
             this.label3.TabIndex = 17;
@@ -239,7 +241,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(307, 117);
+            this.label4.Location = new System.Drawing.Point(306, 100);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(211, 24);
             this.label4.TabIndex = 18;
@@ -248,7 +250,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(285, 298);
+            this.label5.Location = new System.Drawing.Point(284, 301);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(135, 13);
             this.label5.TabIndex = 19;
@@ -256,14 +258,14 @@
             // 
             // custUpdateTextBox
             // 
-            this.custUpdateTextBox.Location = new System.Drawing.Point(426, 293);
+            this.custUpdateTextBox.Location = new System.Drawing.Point(425, 296);
             this.custUpdateTextBox.Name = "custUpdateTextBox";
             this.custUpdateTextBox.Size = new System.Drawing.Size(134, 20);
             this.custUpdateTextBox.TabIndex = 20;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(358, 333);
+            this.button1.Location = new System.Drawing.Point(357, 336);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(130, 30);
             this.button1.TabIndex = 21;
@@ -368,11 +370,33 @@
             this.dataGridView1.Size = new System.Drawing.Size(574, 311);
             this.dataGridView1.TabIndex = 32;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(106, 463);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(120, 25);
+            this.label8.TabIndex = 33;
+            this.label8.Text = "REPORTS";
+            // 
+            // reportsBtn
+            // 
+            this.reportsBtn.Location = new System.Drawing.Point(111, 509);
+            this.reportsBtn.Name = "reportsBtn";
+            this.reportsBtn.Size = new System.Drawing.Size(115, 23);
+            this.reportsBtn.TabIndex = 34;
+            this.reportsBtn.Text = "Go to Reports";
+            this.reportsBtn.UseVisualStyleBackColor = true;
+            this.reportsBtn.Click += new System.EventHandler(this.reportsBtn_Click);
+            // 
             // custRecordsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1452, 725);
+            this.Controls.Add(this.reportsBtn);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.monthCalendar1);
             this.Controls.Add(this.label7);
@@ -451,5 +475,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.MonthCalendar monthCalendar1;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button reportsBtn;
     }
 }

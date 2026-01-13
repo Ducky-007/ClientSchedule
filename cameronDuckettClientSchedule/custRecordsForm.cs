@@ -518,5 +518,12 @@ namespace cameronDuckettClientSchedule
                 DBConnection.CloseConnection();
             }
         }
+
+        private void reportsBtn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            reportsForm reportsForm = new reportsForm();
+            reportsForm.Show();
+        }
     }
 }
