@@ -16,9 +16,42 @@ namespace cameronDuckettClientSchedule
 {
     public partial class custRecordsForm : Form
     {
+        //create dailyAppts binding list to hold daily appointments
+        BindingList<Appointment> dailyAppts = new BindingList<Appointment>();
         public custRecordsForm()
         {
             InitializeComponent();
+            //create custom columns for dgv
+            dataGridView1.AutoGenerateColumns = false;
+
+            //maunally set columns
+            //col for appt type
+            DataGridViewTextBoxColumn typeCol = new DataGridViewTextBoxColumn();
+            typeCol.DataPropertyName = "Type";
+            typeCol.HeaderText = "Type";
+            dataGridView1.Columns.Add(typeCol);
+
+            //col for customer name
+            DataGridViewTextBoxColumn custNameCol = new DataGridViewTextBoxColumn();
+            custNameCol.DataPropertyName = "CustomerName";
+            custNameCol.HeaderText = "Customer Name";
+            dataGridView1.Columns.Add(custNameCol);
+
+            //col for start time calling the local conversion from appointment class for start time
+            DataGridViewTextBoxColumn startCol = new DataGridViewTextBoxColumn();
+            startCol.DataPropertyName = "StartLocal";
+            startCol.HeaderText = "Start Time";
+            dataGridView1.Columns.Add(startCol);
+
+            //col for end time calling the local conversion from appointment class for end time
+            DataGridViewTextBoxColumn endCol = new DataGridViewTextBoxColumn();
+            endCol.DataPropertyName = "EndLocal";
+            endCol.HeaderText = "End Time";
+            dataGridView1.Columns.Add(endCol);
+
+            //bind empty list to dailyAppts on load
+            //set the list as the data source for the data grid view
+            dataGridView1.DataSource = dailyAppts;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -370,7 +403,7 @@ namespace cameronDuckettClientSchedule
             DBConnection.CloseConnection();
 
             //open update appointment form
-            updateAppointmentForm updateAppForm = new updateAppointmentForm(nameUpdate, titleUpdate);
+            updateAppointmentForm updateAppForm = new updateAppointmentForm(nameUpdate, titleUpdate, reader.GetInt32("appointmentId"));
             updateAppForm.Show();
             this.Hide();
         }
@@ -378,6 +411,58 @@ namespace cameronDuckettClientSchedule
         private void titleToUpdate_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            DateTime selectedDate = monthCalendar1.SelectionRange.Start;
+            //clear current view
+
+            //query database for appointments on selected date (use start of day and end of day for selected date)
+            //convert DB times with TimeZone
+
+            try
+            {
+                DBConnection.OpenConnection();
+
+                string dailyApptQuery = "SELECT a.appointmentId, c.customerName, a.customerId, a.userId, a.title, a.description, a.location, " +
+                    "a.contact, a.type, a.url, a.start, a.end " +
+                    "FROM appointment a " +
+                    "JOIN customer c ON a.customerId = c.customerId " +
+                    "WHERE a.start >= @startDay AND a.start < @endDay " +
+                    "AND a.userId = @userId;";
+                MySqlCommand dailyApptCmd = new MySqlCommand(dailyApptQuery, DBConnection.conn);
+                dailyApptCmd.Parameters.AddWithValue("@userId", userSession.UserId);
+                dailyApptCmd.Parameters.AddWithValue("@startDay", selectedDate.Date);
+                dailyApptCmd.Parameters.AddWithValue("@endDay", selectedDate.Date.AddDays(1));
+                MySqlDataReader dailyApptReader = dailyApptCmd.ExecuteReader();
+                dailyAppts.Clear();
+
+                while (dailyApptReader.Read())
+                {
+                    Appointment appt = new Appointment
+                    {
+                        AppointmentId = dailyApptReader.GetInt32("appointmentId"),
+                        CustomerId = dailyApptReader.GetInt32("customerId"),
+                        CustomerName = dailyApptReader.GetString("customerName"),
+                        Title = dailyApptReader.GetString("title"),
+                        Description = dailyApptReader.GetString("description"),
+                        Type = dailyApptReader.GetString("type"),
+                        Start = dailyApptReader.GetDateTime("start"),
+                        End = dailyApptReader.GetDateTime("end")
+                    };
+                    dailyAppts.Add(appt);
+                }
+                dailyApptReader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+            finally
+            {
+                DBConnection.CloseConnection();
+            }
         }
     }
 }

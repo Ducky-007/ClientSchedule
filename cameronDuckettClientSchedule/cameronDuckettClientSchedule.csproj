@@ -101,6 +101,7 @@
     <Compile Include="addAppointmentForm.Designer.cs">
       <DependentUpon>addAppointmentForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Appointment.cs" />
     <Compile Include="updateAppointmentForm.cs">
       <SubType>Form</SubType>
     </Compile>

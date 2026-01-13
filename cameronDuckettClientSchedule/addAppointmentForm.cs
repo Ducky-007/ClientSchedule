@@ -201,5 +201,19 @@ namespace cameronDuckettClientSchedule
                 DBConnection.CloseConnection();
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //close form without adding appointment
+            //open customer records form
+            custRecordsForm custForm = new custRecordsForm();
+            custForm.Show();
+            this.Close();
+        }
+
+        private void addAppointmentForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

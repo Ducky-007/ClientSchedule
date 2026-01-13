@@ -16,11 +16,13 @@ namespace cameronDuckettClientSchedule
     {
         string _custName;
         string _appointTitle;
-        public updateAppointmentForm(string custName, string appointTitle)
+        int _apptId;
+        public updateAppointmentForm(string custName, string appointTitle, int apptId)
         {
             InitializeComponent();
             _custName = custName;
             _appointTitle = appointTitle;
+            _apptId = apptId;
         }
 
         private void updateAppointmentForm_Load(object sender, EventArgs e)
@@ -28,45 +30,52 @@ namespace cameronDuckettClientSchedule
             DBConnection.OpenConnection();
             //get current values to place in text boxes as placeholders
             //description texbox placeholder
-            string getAppDescQuery = "SELECT description FROM appointment WHERE title = @title";
+            string getAppDescQuery = "SELECT description FROM appointment WHERE title = @title AND appointmentId = @apptId";
             MySqlCommand getAppDescCmd = new MySqlCommand(getAppDescQuery, DBConnection.conn);
             getAppDescCmd.Parameters.AddWithValue("@title", _appointTitle);
+            getAppDescCmd.Parameters.AddWithValue("@apptId", _apptId);
             string appDesc = Convert.ToString(getAppDescCmd.ExecuteScalar());
 
             //location textbox placeholder
-            string getAppLocationQuery = "SELECT location FROM appointment WHERE title = @title";
+            string getAppLocationQuery = "SELECT location FROM appointment WHERE title = @title AND appointmentId = @apptId";
             MySqlCommand getAppLocationCmd = new MySqlCommand(getAppLocationQuery, DBConnection.conn);
             getAppLocationCmd.Parameters.AddWithValue("@title", _appointTitle);
+            getAppLocationCmd.Parameters.AddWithValue("@apptId", _apptId);
             string appLocation = Convert.ToString(getAppLocationCmd.ExecuteScalar());
 
             //contact textbox placeholder
-            string getAppContactQuery = "SELECT contact FROM appointment WHERE title = @title";
+            string getAppContactQuery = "SELECT contact FROM appointment WHERE title = @title AND appointmentId = @apptId";
             MySqlCommand getAppContactCmd = new MySqlCommand(getAppContactQuery, DBConnection.conn);
             getAppContactCmd.Parameters.AddWithValue("@title", _appointTitle);
+            getAppContactCmd.Parameters.AddWithValue("@apptId", _apptId);
             string appContact = Convert.ToString(getAppContactCmd.ExecuteScalar());
 
             //type textbox placeholder
-            string getAppTypeQuery = "SELECT type FROM appointment WHERE title = @title";
+            string getAppTypeQuery = "SELECT type FROM appointment WHERE title = @title AND appointmentId = @apptId";
             MySqlCommand getAppTypeCmd = new MySqlCommand(getAppTypeQuery, DBConnection.conn);
             getAppTypeCmd.Parameters.AddWithValue("@title", _appointTitle);
+            getAppTypeCmd.Parameters.AddWithValue("@apptId", _apptId);
             string appType = Convert.ToString(getAppTypeCmd.ExecuteScalar());
 
             //URL textbox placeholder
-            string getAppURLQuery = "SELECT url FROM appointment WHERE title = @title";
+            string getAppURLQuery = "SELECT url FROM appointment WHERE title = @title AND appointmentId = @apptId";
             MySqlCommand getAppURLCmd = new MySqlCommand(getAppURLQuery, DBConnection.conn);
             getAppURLCmd.Parameters.AddWithValue("@title", _appointTitle);
+            getAppURLCmd.Parameters.AddWithValue("@apptId", _apptId);
             string appURL = Convert.ToString(getAppURLCmd.ExecuteScalar());
 
             //start time textbox placeholder
-            string getStartTimeQuery = "SELECT start FROM appointment WHERE title = @title";
+            string getStartTimeQuery = "SELECT start FROM appointment WHERE title = @title AND appointmentId = @apptId";
             MySqlCommand getStartTimeCmd = new MySqlCommand(getStartTimeQuery, DBConnection.conn);
             getStartTimeCmd.Parameters.AddWithValue("@title", _appointTitle);
+            getStartTimeCmd.Parameters.AddWithValue("@apptId", _apptId);
             string appStartTime = Convert.ToString(getStartTimeCmd.ExecuteScalar());
 
             //end time textbox placeholder
-            string getEndTimeQuery = "SELECT end FROM appointment WHERE title = @title";
+            string getEndTimeQuery = "SELECT end FROM appointment WHERE title = @title AND appointmentId = @apptId";
             MySqlCommand getEndTimeCmd = new MySqlCommand(getEndTimeQuery, DBConnection.conn);
             getEndTimeCmd.Parameters.AddWithValue("@title", _appointTitle);
+            getEndTimeCmd.Parameters.AddWithValue("@apptId", _apptId);
             string appEndTime = Convert.ToString(getEndTimeCmd.ExecuteScalar());
             DBConnection.CloseConnection();
 
@@ -155,21 +164,13 @@ namespace cameronDuckettClientSchedule
                     DateTime startUTC = start.ToUniversalTime();
                     DateTime endUTC = end.ToUniversalTime();
 
-                    //get current appointmentId to exclude from overlap check
-                    string getCurrApptIdQuery = "SELECT appointmentId FROM appointment WHERE title = @title and userId = @userId";
-                    MySqlCommand getCurrApptIdCmd = new MySqlCommand(getCurrApptIdQuery, DBConnection.conn);
-                    getCurrApptIdCmd.Parameters.AddWithValue("@title", _appointTitle);
-                    getCurrApptIdCmd.Parameters.AddWithValue("@userId", userSession.UserId);
-                    object currApptIdObj = getCurrApptIdCmd.ExecuteScalar();
-                    int currApptId = Convert.ToInt32(currApptIdObj);
-
                     string overlapQuery = "SELECT COUNT(*) FROM appointment WHERE " +
                                           "(@start < end AND @end > start AND userID = @userId AND appointmentId != @currApptId)";
                     MySqlCommand checkCmd = new MySqlCommand(overlapQuery, DBConnection.conn);
                     checkCmd.Parameters.AddWithValue("@start", startUTC);
                     checkCmd.Parameters.AddWithValue("@end", endUTC);
                     checkCmd.Parameters.AddWithValue("@userId", userSession.UserId);
-                    checkCmd.Parameters.AddWithValue("@currApptId", currApptId);
+                    checkCmd.Parameters.AddWithValue("@currApptId", _apptId);
                     int count = Convert.ToInt32(checkCmd.ExecuteScalar());
 
                     if (count > 0)
@@ -208,7 +209,7 @@ namespace cameronDuckettClientSchedule
                     updateAppointmentCmd.Parameters.AddWithValue("@start", startUTC);
                     updateAppointmentCmd.Parameters.AddWithValue("@end", endUTC);
                     updateAppointmentCmd.Parameters.AddWithValue("@lastUpdateBy", userSession.UserName);
-                    updateAppointmentCmd.Parameters.AddWithValue("@currApptId", currApptId);
+                    updateAppointmentCmd.Parameters.AddWithValue("@currApptId", _apptId);
                     updateAppointmentCmd.ExecuteNonQuery();
                     MessageBox.Show($"Appointment '{title}' updated successfully!");
                     custRecordsForm custForm = new custRecordsForm();
