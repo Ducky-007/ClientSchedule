@@ -44,16 +44,16 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(137, 32);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(120, 25);
+            this.label6.Size = new System.Drawing.Size(176, 37);
             this.label6.TabIndex = 23;
             this.label6.Text = "REPORTS";
             // 
             // btnByMonth
             // 
             this.btnByMonth.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnByMonth.Location = new System.Drawing.Point(52, 162);
+            this.btnByMonth.Location = new System.Drawing.Point(35, 163);
             this.btnByMonth.Name = "btnByMonth";
-            this.btnByMonth.Size = new System.Drawing.Size(303, 38);
+            this.btnByMonth.Size = new System.Drawing.Size(402, 38);
             this.btnByMonth.TabIndex = 24;
             this.btnByMonth.Text = "Appts by Month";
             this.btnByMonth.UseVisualStyleBackColor = true;
@@ -65,16 +65,16 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(101, 97);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(206, 25);
+            this.label1.Size = new System.Drawing.Size(303, 37);
             this.label1.TabIndex = 25;
             this.label1.Text = "Select Report Below";
             // 
             // btnSchedule
             // 
             this.btnSchedule.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSchedule.Location = new System.Drawing.Point(52, 265);
+            this.btnSchedule.Location = new System.Drawing.Point(35, 266);
             this.btnSchedule.Name = "btnSchedule";
-            this.btnSchedule.Size = new System.Drawing.Size(303, 38);
+            this.btnSchedule.Size = new System.Drawing.Size(402, 38);
             this.btnSchedule.TabIndex = 26;
             this.btnSchedule.Text = "Schedule";
             this.btnSchedule.UseVisualStyleBackColor = true;
@@ -83,9 +83,9 @@
             // btnCustCount
             // 
             this.btnCustCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCustCount.Location = new System.Drawing.Point(52, 371);
+            this.btnCustCount.Location = new System.Drawing.Point(35, 372);
             this.btnCustCount.Name = "btnCustCount";
-            this.btnCustCount.Size = new System.Drawing.Size(303, 38);
+            this.btnCustCount.Size = new System.Drawing.Size(429, 61);
             this.btnCustCount.TabIndex = 27;
             this.btnCustCount.Text = "Customer Count by Country";
             this.btnCustCount.UseVisualStyleBackColor = true;
@@ -94,8 +94,9 @@
             // reportDGV
             // 
             this.reportDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.reportDGV.Location = new System.Drawing.Point(431, 32);
+            this.reportDGV.Location = new System.Drawing.Point(528, 32);
             this.reportDGV.Name = "reportDGV";
+            this.reportDGV.RowHeadersWidth = 62;
             this.reportDGV.Size = new System.Drawing.Size(644, 484);
             this.reportDGV.TabIndex = 28;
             // 
@@ -104,7 +105,7 @@
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(52, 498);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(96, 38);
+            this.button1.Size = new System.Drawing.Size(153, 38);
             this.button1.TabIndex = 29;
             this.button1.Text = "BACK";
             this.button1.UseVisualStyleBackColor = true;
@@ -114,7 +115,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1103, 586);
+            this.ClientSize = new System.Drawing.Size(1306, 586);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.reportDGV);
             this.Controls.Add(this.btnCustCount);

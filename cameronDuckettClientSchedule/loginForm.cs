@@ -62,11 +62,14 @@ namespace cameronDuckettClientSchedule
                 MessageBox.Show($"{Messages.loginSuccess} {username}!");
                 //set current user session username through userSession static class
                 userSession.UserName = username;
+
                 //enter entry in login history file
                 LogUserLogin(userSession.UserName);
+
                 //set userId for userSession
                 int currUserId = reader.GetInt32("userId");
                 userSession.UserId = currUserId;
+                
                 //open main form
                 custRecordsForm custForm = new custRecordsForm();
                 custForm.Show();
@@ -74,6 +77,7 @@ namespace cameronDuckettClientSchedule
                 //close login form
                 this.Hide();
                 reader.Close();
+
                 //close connection
                 DBConnection.CloseConnection();
             }

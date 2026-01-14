@@ -28,6 +28,8 @@ namespace cameronDuckettClientSchedule
 
             //create custom columns for dgv
             dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.ReadOnly = true;
 
             //maunally set columns
             //col for appt type
@@ -85,6 +87,7 @@ namespace cameronDuckettClientSchedule
             if (!Regex.IsMatch(phoneNum, @"^[0-9-]+$"))
             {
                 MessageBox.Show("Phone number must contain only digits and dashes.");
+                return;
             }
             try
             {
@@ -390,23 +393,33 @@ namespace cameronDuckettClientSchedule
             string custNameToUpdate = custUpdateTextBox.Text.Trim();
             //if name is in database, open update customer form
             //query database to ensure name is already in customer table, if not don't open form
-            DBConnection.OpenConnection();
-            string nameExistQuery = "SELECT customerName FROM customer" +
-                                     " WHERE customerName = @customerName;";
-            MySqlCommand nameCheckCmd = new MySqlCommand(nameExistQuery, DBConnection.conn);
-            nameCheckCmd.Parameters.AddWithValue("customerName", custNameToUpdate);
-            MySqlDataReader reader = nameCheckCmd.ExecuteReader();
-            if (reader.HasRows)
+            try
             {
-                updateCustForm updateForm = new updateCustForm(custNameToUpdate);
-                updateForm.Show();
-                this.Hide();
+                DBConnection.OpenConnection();
+                string nameExistQuery = "SELECT customerName FROM customer" +
+                                         " WHERE customerName = @customerName;";
+                MySqlCommand nameCheckCmd = new MySqlCommand(nameExistQuery, DBConnection.conn);
+                nameCheckCmd.Parameters.AddWithValue("customerName", custNameToUpdate);
+                MySqlDataReader reader = nameCheckCmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    updateCustForm updateForm = new updateCustForm(custNameToUpdate);
+                    updateForm.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show($"Customer '{custNameToUpdate}' does not exist in the database.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show($"Customer '{custNameToUpdate}' does not exist in the database.");
+                MessageBox.Show("An error occurred: " + ex.Message);
             }
-            DBConnection.CloseConnection();
+            finally
+            {
+                DBConnection.CloseConnection();
+            }
         }
 
         private void addAppointBtn_Click(object sender, EventArgs e)
@@ -419,48 +432,92 @@ namespace cameronDuckettClientSchedule
 
         private void delAppointBtn_Click(object sender, EventArgs e)
         {
-            //open add appointment form
-            addAppointmentForm addAppForm = new addAppointmentForm();
-            addAppForm.Show();
-            this.Hide();
+            //ADD delete button based on appointment selected in data grid view
+            //check if row is selected in data grid view
+            if (dataGridView1.CurrentRow == null || !dataGridView1.CurrentRow.Selected)
+            {
+                MessageBox.Show("Please select an appointment to delete.");
+                return;
+            }
+
+            //get object from the selected row
+            //use data bound item to get the actual selected row to an appointment object
+            Appointment selectedAppt = dataGridView1.CurrentRow.DataBoundItem as Appointment;
+
+            //safety check just in case
+            if (selectedAppt == null) return;
+
+            //get apptId from the selected appointment object
+            int apptId = selectedAppt.AppointmentId;
+
+            //delete appointment from database based on apptId
+            try
+            {
+                DBConnection.OpenConnection();
+                string deleteApptQuery = "DELETE FROM appointment WHERE appointmentId = @apptId;";
+                MySqlCommand deleteApptCmd = new MySqlCommand(deleteApptQuery, DBConnection.conn);
+                deleteApptCmd.Parameters.AddWithValue("@apptId", apptId);
+                deleteApptCmd.ExecuteNonQuery();
+                MessageBox.Show($"Appointment '{selectedAppt.Title}' deleted successfully!");
+
+                //remove appointment from dailyAppts binding list to update data grid view
+                dailyAppts.Remove(selectedAppt);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+            finally
+            {
+                DBConnection.CloseConnection();
+            }
         }
 
         private void updateAppointBtn_Click(object sender, EventArgs e)
         {
             string nameUpdate = nameToUpdate.Text.Trim();
             string titleUpdate = titleToUpdate.Text.Trim();
-            if (string.IsNullOrWhiteSpace(nameUpdate) || string.IsNullOrWhiteSpace(titleUpdate))
+            try
             {
-                MessageBox.Show("Please enter both customer name and appointment title to update an appointment.");
-                return;
-            }
+                if (string.IsNullOrWhiteSpace(nameUpdate) || string.IsNullOrWhiteSpace(titleUpdate))
+                {
+                    MessageBox.Show("Please enter both customer name and appointment title to update an appointment.");
+                    return;
+                }
 
-            //ensure there is an appointment in the database that matches the customer name and appointment title and userId before opening update appointment form
-            DBConnection.OpenConnection();
-            string appointExistQuery = "SELECT a.appointmentId FROM appointment a " +
-                                       "JOIN customer c ON a.customerId = c.customerId " +
-                                       "WHERE c.customerName = @customerName AND a.title = @appointmentTitle " +
-                                       "AND a.userId = @userId;";
-            MySqlCommand appointCheckCmd = new MySqlCommand(appointExistQuery, DBConnection.conn);
-            appointCheckCmd.Parameters.AddWithValue("@customerName", nameUpdate);
-            appointCheckCmd.Parameters.AddWithValue("@appointmentTitle", titleUpdate);
-            appointCheckCmd.Parameters.AddWithValue("@userId", userSession.UserId);
-            MySqlDataReader reader = appointCheckCmd.ExecuteReader();
-            if (!reader.HasRows)
+                //ensure there is an appointment in the database that matches the customer name and appointment title and userId before opening update appointment form
+                DBConnection.OpenConnection();
+                string appointExistQuery = "SELECT a.appointmentId FROM appointment a " +
+                                           "JOIN customer c ON a.customerId = c.customerId " +
+                                           "WHERE c.customerName = @customerName AND a.title = @appointmentTitle " +
+                                           "AND a.userId = @userId;";
+                MySqlCommand appointCheckCmd = new MySqlCommand(appointExistQuery, DBConnection.conn);
+                appointCheckCmd.Parameters.AddWithValue("@customerName", nameUpdate);
+                appointCheckCmd.Parameters.AddWithValue("@appointmentTitle", titleUpdate);
+                appointCheckCmd.Parameters.AddWithValue("@userId", userSession.UserId);
+                MySqlDataReader reader = appointCheckCmd.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    MessageBox.Show($"No appointment found for customer '{nameUpdate}' with title '{titleUpdate}'.");
+                    return;
+                }
+                reader.Read();
+                int foundApptId = reader.GetInt32("appointmentId");
+                reader.Close();
+
+                //open update appointment form
+                updateAppointmentForm updateAppForm = new updateAppointmentForm(nameUpdate, titleUpdate, foundApptId);
+                updateAppForm.Show();
+                this.Hide();
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show($"No appointment found for customer '{nameUpdate}' with title '{titleUpdate}'.");
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+            finally
+            {
                 DBConnection.CloseConnection();
-                return;
             }
-            reader.Read();
-            int foundApptId = reader.GetInt32("appointmentId");
-            reader.Close();
-            DBConnection.CloseConnection();
-
-            //open update appointment form
-            updateAppointmentForm updateAppForm = new updateAppointmentForm(nameUpdate, titleUpdate, foundApptId);
-            updateAppForm.Show();
-            this.Hide();
         }
 
         private void titleToUpdate_TextChanged(object sender, EventArgs e)

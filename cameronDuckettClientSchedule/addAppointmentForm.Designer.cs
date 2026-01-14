@@ -48,12 +48,6 @@
             this.appointmentStartTextBox = new System.Windows.Forms.TextBox();
             this.appointmentEndTextBox = new System.Windows.Forms.TextBox();
             this.addAppointBtn = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.nameToDel = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.titleToDel = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -63,7 +57,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(177, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(228, 25);
+            this.label1.Size = new System.Drawing.Size(341, 37);
             this.label1.TabIndex = 0;
             this.label1.Text = "ADD APPOINTMENT";
             // 
@@ -214,74 +208,20 @@
             // addAppointBtn
             // 
             this.addAppointBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addAppointBtn.Location = new System.Drawing.Point(234, 464);
+            this.addAppointBtn.Location = new System.Drawing.Point(269, 506);
             this.addAppointBtn.Name = "addAppointBtn";
-            this.addAppointBtn.Size = new System.Drawing.Size(104, 35);
+            this.addAppointBtn.Size = new System.Drawing.Size(211, 57);
             this.addAppointBtn.TabIndex = 19;
             this.addAppointBtn.Text = "ADD";
             this.addAppointBtn.UseVisualStyleBackColor = true;
             this.addAppointBtn.Click += new System.EventHandler(this.addAppointBtn_Click);
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(616, 121);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(269, 25);
-            this.label11.TabIndex = 20;
-            this.label11.Text = "DELETE APPOINTMENT";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(578, 179);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(85, 13);
-            this.label12.TabIndex = 21;
-            this.label12.Text = "Customer Name:";
-            // 
-            // nameToDel
-            // 
-            this.nameToDel.Location = new System.Drawing.Point(669, 177);
-            this.nameToDel.Name = "nameToDel";
-            this.nameToDel.Size = new System.Drawing.Size(225, 20);
-            this.nameToDel.TabIndex = 22;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(573, 230);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(92, 13);
-            this.label13.TabIndex = 23;
-            this.label13.Text = "Appointment Title:";
-            // 
-            // titleToDel
-            // 
-            this.titleToDel.Location = new System.Drawing.Point(669, 227);
-            this.titleToDel.Name = "titleToDel";
-            this.titleToDel.Size = new System.Drawing.Size(225, 20);
-            this.titleToDel.TabIndex = 24;
-            // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(707, 277);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(143, 35);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "DELETE";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(648, 464);
+            this.button2.Location = new System.Drawing.Point(29, 506);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(143, 35);
+            this.button2.Size = new System.Drawing.Size(168, 57);
             this.button2.TabIndex = 26;
             this.button2.Text = "BACK";
             this.button2.UseVisualStyleBackColor = true;
@@ -291,14 +231,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1036, 521);
+            this.ClientSize = new System.Drawing.Size(782, 625);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.titleToDel);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.nameToDel);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.label11);
             this.Controls.Add(this.addAppointBtn);
             this.Controls.Add(this.appointmentEndTextBox);
             this.Controls.Add(this.appointmentStartTextBox);
@@ -349,12 +283,6 @@
         private System.Windows.Forms.TextBox appointmentStartTextBox;
         private System.Windows.Forms.TextBox appointmentEndTextBox;
         private System.Windows.Forms.Button addAppointBtn;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox nameToDel;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox titleToDel;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
     }
 }

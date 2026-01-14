@@ -150,56 +150,7 @@ namespace cameronDuckettClientSchedule
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //delete appointment and close form
-            string nameToDelete = nameToDel.Text.Trim();
-            string titleToDelete = titleToDel.Text.Trim();
-            if (string.IsNullOrWhiteSpace(nameToDelete) || string.IsNullOrWhiteSpace(titleToDelete))
-            {
-                MessageBox.Show("Please enter both customer name and appointment title to delete an appointment.");
-                return;
-            }
-            try
-            {
-                DBConnection.OpenConnection();
-                //get customerId
-                string customerIdQuery = "SELECT customerId FROM customer WHERE customername = @name";
-                MySqlCommand customerCmd = new MySqlCommand(customerIdQuery, DBConnection.conn);
-                customerCmd.Parameters.AddWithValue("@name", nameToDelete);
-                object customer = customerCmd.ExecuteScalar();
-                if (customer == null)
-                {
-                    MessageBox.Show($"Customer not found. Please verify you entered the correct customer name.");
-                    return;
-                }
-                int customerId = Convert.ToInt32(customer);
-                //delete appointment
-                string deleteAppointmentQuery = "DELETE FROM appointment WHERE customerId = @customerId AND title = @title AND userId = @userId";
-                MySqlCommand deleteAppointmentCmd = new MySqlCommand(deleteAppointmentQuery, DBConnection.conn);
-                deleteAppointmentCmd.Parameters.AddWithValue("@customerId", customerId);
-                deleteAppointmentCmd.Parameters.AddWithValue("@title", titleToDelete);
-                deleteAppointmentCmd.Parameters.AddWithValue("@userId", userSession.UserId);
-                int rowsAffected = deleteAppointmentCmd.ExecuteNonQuery();
-                if (rowsAffected > 0)
-                {
-                    MessageBox.Show($"Appointment '{titleToDelete}' deleted successfully!");
-                    custRecordsForm custForm = new custRecordsForm();
-                    custForm.Show();
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show($"No appointment found with the given customer name and title.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error connecting to database: " + ex.Message);
-                return;
-            }
-            finally
-            {
-                DBConnection.CloseConnection();
-            }
+           
         }
 
         private void button2_Click(object sender, EventArgs e)
