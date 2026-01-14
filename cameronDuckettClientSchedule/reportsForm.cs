@@ -176,13 +176,13 @@ namespace cameronDuckettClientSchedule
 
                 //USE LAMBDA EXPRESSION TO GROUP CUSTOMERS BY COUNTRY AND COUNT
                 var reportData = allCustCountries
-                    .GroupBy(c => c)
-                    .Select(g => new
+                    .GroupBy(country => country)
+                    .Select(group => new
                     {
-                        Country = g.Key,
-                        Count = g.Count()
+                        Country = group.Key,
+                        Count = group.Count()
                     })
-                    .OrderByDescending(r => r.Count)
+                    .OrderByDescending(row => row.Count)
                     .ToList();
 
                 reportDGV.DataSource = reportData;

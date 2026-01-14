@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using static System.Net.Mime.MediaTypeNames;
+using System.IO;
 
 namespace cameronDuckettClientSchedule
 {
@@ -61,6 +62,8 @@ namespace cameronDuckettClientSchedule
                 MessageBox.Show($"{Messages.loginSuccess} {username}!");
                 //set current user session username through userSession static class
                 userSession.UserName = username;
+                //enter entry in login history file
+                LogUserLogin(userSession.UserName);
                 //set userId for userSession
                 int currUserId = reader.GetInt32("userId");
                 userSession.UserId = currUserId;
@@ -76,9 +79,19 @@ namespace cameronDuckettClientSchedule
             }
             else
             {
+                reader.Close();
+                DBConnection.CloseConnection();
                 MessageBox.Show($"{Messages.loginFail}");
                 return;
             }
+        }
+
+        //method to log all logins by users to text file
+        private void LogUserLogin(string username)
+        {
+            string logFilePath = "Login_History.txt";
+            string logEntry = $"User '{userSession.UserName}' logged in at {DateTime.Now}" + Environment.NewLine;
+            File.AppendAllText(logFilePath, logEntry);
         }
 
         private void label3_Click(object sender, EventArgs e)
